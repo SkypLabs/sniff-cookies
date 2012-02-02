@@ -26,7 +26,7 @@ int main (int argc, char ** argv)
 
 		if (dev == NULL)
 		{
-			fprintf(stderr, "[!] Error during looking up device : %s\n", errbuf);
+			fprintf(stderr, "[x] Error during looking up device : %s\n", errbuf);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -45,19 +45,19 @@ int main (int argc, char ** argv)
 
 	if (handle == NULL)
 	{
-		fprintf(stderr, "[!] Couldn't open device %s : %s\n", dev, errbuf);
+		fprintf(stderr, "[x] Couldn't open device %s : %s\n", dev, errbuf);
 		exit(EXIT_FAILURE);
 	}
 
 	if ((pcap_compile(handle, &fp, filter_exp, 0, net)) == -1)
 	{
-		fprintf(stderr, "[!] Couldn't parse filter %s : %s\n", filter_exp, pcap_geterr(handle));
+		fprintf(stderr, "[x] Couldn't parse filter %s : %s\n", filter_exp, pcap_geterr(handle));
 		exit(EXIT_FAILURE);
 	}
 
 	if ((pcap_setfilter(handle, &fp)) == -1)
 	{
-		fprintf(stderr, "[!] Couldn't install filter %s : %s\n", filter_exp, pcap_geterr(handle));
+		fprintf(stderr, "[x] Couldn't install filter %s : %s\n", filter_exp, pcap_geterr(handle));
 		exit(EXIT_FAILURE);
 	}
 
@@ -65,7 +65,7 @@ int main (int argc, char ** argv)
 
 	if ((pcap_loop(handle, -1, got_packet, NULL) == -1))
 	{
-		fprintf(stderr, "[!] Error during reading packets\n");
+		fprintf(stderr, "[x] Error during reading packets\n");
 		exit(EXIT_FAILURE);
 	}
 

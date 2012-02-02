@@ -1,19 +1,22 @@
 /* ---------- Defines ---------- */
 
-#define ETHER_ADDR_LENGHT 6
-#define ETHER_HDR_LENGHT 14
+#define ETHER_ADDR_LENGTH		6
+#define ETHER_HDR_LENGTH		14
+
+#define IP_HL(ip)			(((ip)->ip_vhl) & 0x0F)
+#define IP_V(ip)			(((ip)->ip_vhl) >> 4)
 
 /* ---------- Prototypes ---------- */
 
 typedef struct {
-	unsigned char ether_dest_addr[ETHER_ADDR_LENGHT];
-	unsigned char ether_src_addr[ETHER_ADDR_LENGHT];
+	unsigned char ether_dest_addr[ETHER_ADDR_LENGTH];
+	unsigned char ether_src_addr[ETHER_ADDR_LENGTH];
 	unsigned short ether_type;
 
 } Ether_hdr;
 
 typedef struct {
-	unsigned char ip_version_and_header_lenght;
+	unsigned char ip_vhl;
 	unsigned char ip_tos;
 	unsigned short ip_len;
 	unsigned short ip_id;
