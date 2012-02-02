@@ -3,9 +3,6 @@
 #define ETHER_ADDR_LENGTH		6
 #define ETHER_HDR_LENGTH		14
 
-#define IP_HL(ip)			(((ip)->ip_vhl) & 0x0F)
-#define IP_V(ip)			(((ip)->ip_vhl) >> 4)
-
 /* ---------- Prototypes ---------- */
 
 typedef struct {

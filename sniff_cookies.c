@@ -1,19 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pcap.h>
+#include <signal.h>
 
 #include "mypcap.h"
 #include "sniff_cookies_lib.h"
 
+/* ---------- Global variables ---------- */
+pcap_t *handle = NULL;
+
 int main (int argc, char ** argv)
 {
 	char *dev, errbuf[PCAP_ERRBUF_SIZE];
-	pcap_t *handle;
-	//struct pcap_pkthdr header;
-	//const u_char *packet;
 	struct bpf_program fp;
 	char filter_exp[] = "port 80";
 	bpf_u_int32 net, mask;
+
+	signal(SIGINT, signal_handler);
+	signal(SIGTERM, signal_handler);
 
 	printf("###############################\n");
 	printf("##  Sniff Cookies by Skyper  ##\n");
