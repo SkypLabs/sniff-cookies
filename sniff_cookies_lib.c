@@ -37,12 +37,15 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	Tcp_hdr *tcp;
 	void *http_payload_addr;
 	char *http_cookies_addr;
-	char *pch;
+	char *tok_cookie, *tok_val;
+	char *saveptr1, *saveptr2;
 
 	u_short ether_type;
 	u_int tcp_header_size;
 	u_int http_payload_size;
 	static char http_payload[DEFAULT_TCP_PAYLOAD_SIZE];
+	Host_cookies host_cookies;
+	u_char i = 0;
 
 	eptr = (Ether_hdr *) packet;
 	ether_type = ntohs(eptr->ether_type);
@@ -75,11 +78,18 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 
 	http_cookies_addr += 8;
 	http_cookies_addr = strtok(http_cookies_addr, "\r\t\r\t");
-	pch = strtok(http_cookies_addr, " =;");
 
-	while (pch != NULL)
+	tok_cookie = strtok_r(http_cookies_addr, " ;", &saveptr1);
+
+	while (tok_cookie != NULL)
 	{
-		printf("%s\n", pch);
-		pch = strtok(NULL, " =;");
+		tok_val = strtok_r(tok_cookie, "=", &saveptr2);
+		strcpy(host_cookies.cookies[i].id, tok_val);
+		tok_val = strtok_r(NULL, "=", &saveptr2);
+		strcpy(host_cookies.cookies[i].val, tok_val);
+	
+		tok_cookie = strtok_r(NULL, " ;", &saveptr1);
+		i++;
 	}
+
 }
