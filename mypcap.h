@@ -3,6 +3,10 @@
 #define ETHER_ADDR_LENGTH		6
 #define ETHER_HDR_LENGTH		14
 
+#define IP_HDR_LENGTH			20
+
+#define DEFAULT_TCP_PAYLOAD_SIZE	2048
+
 /* ---------- Prototypes ---------- */
 
 typedef struct {
@@ -48,5 +52,8 @@ typedef struct {
 /* ---------- Prototypes ---------- */
 
 void pcap_fatal(const char *failed_in, const char *errbuf);
-int is_ip(const struct pcap_pkthdr *header, const u_char *packet);
-int is_tcp(const struct pcap_pkthdr *header, const u_char *packet);
+char is_ip(const struct pcap_pkthdr *header, const u_char *packet);
+char is_tcp(const struct pcap_pkthdr *header, const u_char *packet);
+char is_http(const struct pcap_pkthdr *header, const u_char *packet);
+void *get_tcp_payload_addr(const struct pcap_pkthdr *header, const u_char *packet);
+u_int get_tcp_payload_size(const struct pcap_pkthdr *header, const u_char *packet);

