@@ -37,15 +37,14 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	Tcp_hdr *tcp;
 	void *http_payload_addr;
 	char *http_cookies_addr;
-	char *tok_cookie, *tok_val;
-	char *saveptr1, *saveptr2;
+	char *tok_cookie, *saveptr, *saveptr2;
 
+	u_char i = 0, j;
 	u_short ether_type;
 	u_int tcp_header_size;
 	u_int http_payload_size;
-	static char http_payload[DEFAULT_TCP_PAYLOAD_SIZE];
 	Host_cookies host_cookies;
-	u_char i = 0;
+	static char http_payload[DEFAULT_TCP_PAYLOAD_SIZE];
 
 	eptr = (Ether_hdr *) packet;
 	ether_type = ntohs(eptr->ether_type);
@@ -79,17 +78,30 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	http_cookies_addr += 8;
 	http_cookies_addr = strtok(http_cookies_addr, "\r\t\r\t");
 
-	tok_cookie = strtok_r(http_cookies_addr, " ;", &saveptr1);
+	tok_cookie = strtok_r(http_cookies_addr, " ;", &saveptr);
 
 	while (tok_cookie != NULL)
 	{
-		tok_val = strtok_r(tok_cookie, "=", &saveptr2);
-		strcpy(host_cookies.cookies[i].id, tok_val);
-		tok_val = strtok_r(NULL, "=", &saveptr2);
-		strcpy(host_cookies.cookies[i].val, tok_val);
+		host_cookies.cookies[i].id = strtok_r(tok_cookie, "=", &saveptr2);
+		host_cookies.cookies[i].val = strtok_r(NULL, "=", &saveptr2);
 	
-		tok_cookie = strtok_r(NULL, " ;", &saveptr1);
+		tok_cookie = strtok_r(NULL, " ;", &saveptr);
 		i++;
 	}
 
+	host_cookies.ip_src = inet_ntoa((struct in_addr *) ip->ip_src_addr);
+	
+	host_cookies.host_dst = strstr(http_payload, "Host:");
+	host_cookies.host_dst += 6;
+	host_cookies.host_dst = strtok(host_cookies.host_dst, "\r\t\r\t");
+
+	printf("Host : %s\n", host_cookies.host_dst);
+	printf("IP sources : %s\n", host_cookies.ip_src);
+
+	for (j=0; j<i; j++)
+	{
+		printf("ID : %s - Val : %s\n", host_cookies.cookies[j].id, host_cookies.cookies[j].val);
+	}
+
+	printf("--------------------------------------\n");
 }
