@@ -96,11 +96,11 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	host_cookies.host_dst = strtok(host_cookies.host_dst, "\r\t\r\t");
 
 	printf("Host : %s\n", host_cookies.host_dst);
-	printf("IP sources : %s\n", host_cookies.ip_src);
+	printf("IP sources : %s\n\n", host_cookies.ip_src);
 
 	for (j=0; j<i; j++)
 	{
-		printf("ID : %s - Val : %s\n", host_cookies.cookies[j].id, host_cookies.cookies[j].val);
+		printf("%s =  %s\n", host_cookies.cookies[j].id, host_cookies.cookies[j].val);
 	}
 
 	printf("--------------------------------------\n");
