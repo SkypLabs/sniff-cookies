@@ -1,6 +1,8 @@
 #include <pcap/pcap.h>
 #include <net/ethernet.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -44,6 +46,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	u_int tcp_header_size;
 	u_int http_payload_size;
 	Host_cookies host_cookies;
+	struct in_addr ip_src;
 	static char http_payload[DEFAULT_TCP_PAYLOAD_SIZE];
 
 	eptr = (Ether_hdr *) packet;
@@ -89,7 +92,8 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 		i++;
 	}
 
-	host_cookies.ip_src = inet_ntoa((struct in_addr *) ip->ip_src_addr);
+	ip_src.s_addr = ip->ip_src_addr;
+	host_cookies.ip_src = inet_ntoa(ip_src);
 	
 	host_cookies.host_dst = strstr(http_payload, "Host:");
 	host_cookies.host_dst += 6;
