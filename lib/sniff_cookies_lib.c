@@ -87,14 +87,14 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	{
 		host_cookies.cookies[i].id = strtok_r(tok_cookie, "=", &saveptr2);
 		host_cookies.cookies[i].val = strtok_r(NULL, "=", &saveptr2);
-	
+
 		tok_cookie = strtok_r(NULL, " ;", &saveptr);
 		i++;
 	}
 
 	ip_src.s_addr = ip->ip_src_addr;
 	host_cookies.ip_src = inet_ntoa(ip_src);
-	
+
 	host_cookies.host_dst = strstr(http_payload, "Host:");
 	host_cookies.host_dst += 6;
 	host_cookies.host_dst = strtok(host_cookies.host_dst, "\r\t\r\t");

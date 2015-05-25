@@ -3,6 +3,7 @@ CC=gcc
 BDIR=build
 INCDIR=include
 SRCDIR=src
+LIBDIR=lib
 
 CFLAGS=-Wall -I$(INCDIR)
 LDFLAGS=-lpcap
@@ -14,6 +15,8 @@ all: setup $(EXEC)
 $(EXEC): $(BDIR)/$(EXEC).o $(BDIR)/mypcap.o $(BDIR)/sniff_cookies_lib.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 $(BDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+$(BDIR)/%.o: $(LIBDIR)/%.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 setup:
 	mkdir -p build

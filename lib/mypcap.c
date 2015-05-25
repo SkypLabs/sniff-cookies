@@ -75,7 +75,7 @@ void *get_tcp_payload_addr(const struct pcap_pkthdr *header, const u_char *packe
 {
 	const Tcp_hdr *tcp;
 	u_int tcp_header_size;
-	
+
 	tcp = (Tcp_hdr *)(packet + ETHER_HDR_LENGTH + IP_HDR_LENGTH);
 	tcp_header_size = 4 * tcp->tcp_offset;
 
@@ -89,7 +89,7 @@ u_int get_tcp_payload_size(const struct pcap_pkthdr *header, const u_char *packe
 {
 	const Tcp_hdr *tcp;
 	u_int tcp_header_size;
-	
+
 	tcp = (Tcp_hdr *)(packet + ETHER_HDR_LENGTH + IP_HDR_LENGTH);
 	tcp_header_size = 4 * tcp->tcp_offset;
 
