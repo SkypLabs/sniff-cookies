@@ -1,37 +1,17 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
+.deps
 *.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-
-# Others
+*.log
+*.o
 *.swp
-sniff_cookies
-build/
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+compile
+config.status
+configure
+configure.scan
+depcomp
+install-sh
+missing
+sniff-cookies
