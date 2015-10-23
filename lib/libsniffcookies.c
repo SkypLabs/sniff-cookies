@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mypcap.h"
-#include "sniff_cookies_lib.h"
+#include "libmypcap.h"
+#include "libsniffcookies.h"
 
 extern pcap_t *handle;
 

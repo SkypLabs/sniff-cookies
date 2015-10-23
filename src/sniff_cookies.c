@@ -3,8 +3,8 @@
 #include <pcap.h>
 #include <signal.h>
 
-#include "mypcap.h"
-#include "sniff_cookies_lib.h"
+#include "libmypcap.h"
+#include "libsniffcookies.h"
 
 /* ---------- Global variables ---------- */
 pcap_t *handle = NULL;
