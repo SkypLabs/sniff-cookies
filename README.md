@@ -21,17 +21,17 @@ This program allows to display HTTP cookies passing through the network which yo
     ./autogen.sh
     ./configure
     make
-    make install
+    make install # as root
 
 ## How to
 
 To start the sniffer (as root) :
 
-    ./sniff_cookies
+    sniff-cookies
 
 Optionally, you can specify the NIC to use :
 
-    ./sniff_cookies eth0
+    sniff-cookies eth0
 
 ## License
 
