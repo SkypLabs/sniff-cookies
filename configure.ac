@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([sniff-cookies], [1.0.0], [https://github.com/SkypLabs/sniff-cookies/issues])
+AC_INIT([sniff-cookies], [1.0.1], [https://github.com/SkypLabs/sniff-cookies/issues])
 AC_CONFIG_SRCDIR([src/sniff_cookies.c])
 #AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE
