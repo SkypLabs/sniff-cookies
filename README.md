@@ -1,26 +1,37 @@
 # Sniff Cookies
 
+[![Build Status](https://travis-ci.org/SkypLabs/sniff-cookies.svg)](https://travis-ci.org/SkypLabs/sniff-cookies)
+
 This program allows to display HTTP cookies passing through the network which your NIC is connected.
 
 ## Dependencies
 
- * [libpcap][1] (tested with v1.5.3)
+ * [libpcap][1]
 
 ### On Fedora
 
-    yum install libpcap libpcap-devel
+    dnf install make automake gcc libpcap libpcap-devel
 
 ### On Debian
 
-    aptitude install libpcap0.8 libpcap-dev
+    apt-get install make automake gcc libpcap0.8 libpcap-dev
+
+## Installation
+
+    ./autogen.sh
+    ./configure
+    make
+    make install
 
 ## How to
 
-    sudo ./sniff_cookies
+To start the sniffer (as root) :
+
+    ./sniff_cookies
 
 Optionally, you can specify the NIC to use :
 
-    sudo ./sniff_cookies eth0
+    ./sniff_cookies eth0
 
 ## License
 
