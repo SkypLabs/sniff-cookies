@@ -10,6 +10,11 @@
 
 typedef struct
 {
+	char *interface;
+} Arguments;
+
+typedef struct
+{
 	char *id;
 	char *val;
 } HTTP_cookie;
@@ -23,5 +28,6 @@ typedef struct
 
 /* ---------- Prototypes ---------- */
 
+error_t parse_opt(int key, char *arg, struct argp_state *state);
 void signal_handler(int signal);
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <argp.h>
 #include <pcap.h>
 #include <signal.h>
 
@@ -7,24 +8,37 @@
 #include "libsniffcookies.h"
 
 /* ---------- Global variables ---------- */
+
 pcap_t *handle = NULL;
+
+const char *argp_program_version = "v1.1.0";
+const char *argp_program_bug_address = "<skyper@skyplabs.net>";
+static char doc[] = "Allows to display HTTP cookies passing through the network";
+static struct argp_option options[] = {
+	{"interface", 'i', 0, 0, "Specify the network interface to use"},
+	{0}
+};
+
+static struct argp argp = {options, parse_opt, 0, doc};
+
+/* ---------- Functions ---------- */
 
 int main (int argc, char ** argv)
 {
 	char *dev, errbuf[PCAP_ERRBUF_SIZE];
+	Arguments arguments;
 	struct bpf_program fp;
 	char filter_exp[] = "port 80";
 	bpf_u_int32 net, mask;
 
+	arguments.interface = NULL;
+
 	signal(SIGINT, signal_handler);
 	signal(SIGTERM, signal_handler);
 
-	printf("###############################\n");
-	printf("##  Sniff Cookies by Skyper  ##\n");
-	printf("##  http://blog.skyplabs.net ##\n");
-	printf("###############################\n");
+	argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-	if (argc < 2)
+	if (arguments.interface == NULL)
 	{
 		dev = pcap_lookupdev(errbuf);
 
@@ -35,7 +49,7 @@ int main (int argc, char ** argv)
 		}
 	}
 	else
-		dev = argv[1];
+		dev = arguments.interface;
 
 	printf("[*] Device :\t%s\n", dev);
 

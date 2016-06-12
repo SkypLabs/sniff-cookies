@@ -5,13 +5,34 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <string.h>
+#include <argp.h>
 
 #include "libmypcap.h"
 #include "libsniffcookies.h"
 
+/* ---------- Global variables ---------- */
+
 extern pcap_t *handle;
 
 /* ---------- Functions ---------- */
+
+error_t parse_opt(int key, char *arg, struct argp_state *state)
+{
+	Arguments *arguments = state->input;
+
+	switch(key)
+	{
+		case 'i':
+			arguments->interface = arg;
+			break;
+		case ARGP_KEY_ARG:
+			return 0;
+		default:
+			return ARGP_ERR_UNKNOWN;
+	}
+
+	return 0;
+}
 
 void signal_handler(int signal)
 {
