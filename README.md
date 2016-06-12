@@ -25,13 +25,15 @@ This program allows to display HTTP cookies passing through the network which yo
 
 ## How to
 
-To start the sniffer (as root) :
+    Usage: sniff-cookies [OPTION...]
+    Allows to display HTTP cookies passing through the network
 
-    sniff-cookies
+      -i, --interface            Specify the network interface to use
+      -?, --help                 Give this help list
+          --usage                Give a short usage message
+      -V, --version              Print program version
 
-Optionally, you can specify the NIC to use :
-
-    sniff-cookies eth0
+    Report bugs to <skyper@skyplabs.net>.
 
 ## License
 
