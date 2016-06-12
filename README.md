@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/SkypLabs/sniff-cookies.svg)](https://travis-ci.org/SkypLabs/sniff-cookies)
 
-This program allows to display HTTP cookies passing through the network which your NIC is connected.
+This program allows to display the HTTP cookies passing through the network which your NIC is connected.
 
 ## Dependencies
 
@@ -28,10 +28,13 @@ This program allows to display HTTP cookies passing through the network which yo
     Usage: sniff-cookies [OPTION...]
     Allows to display HTTP cookies passing through the network
 
-      -i, --interface            Specify the network interface to use
+      -i, --interface=INTERFACE  Specify the network interface to use
       -?, --help                 Give this help list
           --usage                Give a short usage message
       -V, --version              Print program version
+
+    Mandatory or optional arguments to long options are also mandatory or optional
+    for any corresponding short options.
 
     Report bugs to <skyper@skyplabs.net>.
 

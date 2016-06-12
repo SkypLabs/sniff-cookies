@@ -13,7 +13,7 @@ pcap_t *handle = NULL;
 
 const char *argp_program_version = "v1.1.0";
 const char *argp_program_bug_address = "<skyper@skyplabs.net>";
-static char doc[] = "Allows to display HTTP cookies passing through the network";
+static char doc[] = "Allows to display the HTTP cookies passing through the network";
 static struct argp_option options[] = {
 	{"interface", 'i', "INTERFACE", 0, "Specify the network interface to use"},
 	{0}
