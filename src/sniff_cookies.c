@@ -51,7 +51,7 @@ int main (int argc, char ** argv)
 	else
 		dev = arguments.interface;
 
-	printf("[*] Device :\t%s\n", dev);
+	printf("[*] Device : %s\n", dev);
 
 	if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1)
 	{
