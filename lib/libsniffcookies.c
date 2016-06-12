@@ -26,7 +26,8 @@ error_t parse_opt(int key, char *arg, struct argp_state *state)
 			arguments->interface = arg;
 			break;
 		case ARGP_KEY_ARG:
-			return 0;
+		case ARGP_KEY_END:
+			break;
 		default:
 			return ARGP_ERR_UNKNOWN;
 	}

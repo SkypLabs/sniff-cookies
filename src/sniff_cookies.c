@@ -15,7 +15,7 @@ const char *argp_program_version = "v1.1.0";
 const char *argp_program_bug_address = "<skyper@skyplabs.net>";
 static char doc[] = "Allows to display HTTP cookies passing through the network";
 static struct argp_option options[] = {
-	{"interface", 'i', 0, 0, "Specify the network interface to use"},
+	{"interface", 'i', "INTERFACE", 0, "Specify the network interface to use"},
 	{0}
 };
 
@@ -25,18 +25,16 @@ static struct argp argp = {options, parse_opt, 0, doc};
 
 int main (int argc, char ** argv)
 {
+	Arguments arguments = {NULL};
 	char *dev, errbuf[PCAP_ERRBUF_SIZE];
-	Arguments arguments;
 	struct bpf_program fp;
 	char filter_exp[] = "port 80";
 	bpf_u_int32 net, mask;
 
-	arguments.interface = NULL;
+	argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
 	signal(SIGINT, signal_handler);
 	signal(SIGTERM, signal_handler);
-
-	argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
 	if (arguments.interface == NULL)
 	{
