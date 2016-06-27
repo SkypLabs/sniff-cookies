@@ -26,8 +26,9 @@ This program allows to display the HTTP cookies passing through the network whic
 ## How to
 
     Usage: sniff-cookies [OPTION...]
-    Allows to display HTTP cookies passing through the network
+    Allows to display the HTTP cookies passing through the network
 
+      -C, --csv                  Display cookies as CSV data
       -i, --interface=INTERFACE  Specify the network interface to use
       -?, --help                 Give this help list
           --usage                Give a short usage message
