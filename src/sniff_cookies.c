@@ -10,12 +10,14 @@
 /* ---------- Global variables ---------- */
 
 pcap_t *handle = NULL;
+void (*display_data)(int, Host_cookies *) = display_raw_data;
 
 const char *argp_program_version = "v1.1.0";
 const char *argp_program_bug_address = "<skyper@skyplabs.net>";
 static char doc[] = "Allows to display the HTTP cookies passing through the network";
 static struct argp_option options[] = {
 	{"interface", 'i', "INTERFACE", 0, "Specify the network interface to use"},
+	{"csv", 'C', 0, 0, "Display cookies as CSV data"},
 	{0}
 };
 
@@ -25,11 +27,14 @@ static struct argp argp = {options, parse_opt, 0, doc};
 
 int main (int argc, char ** argv)
 {
-	Arguments arguments = {NULL};
+	Arguments arguments;
 	char *dev, errbuf[PCAP_ERRBUF_SIZE];
 	struct bpf_program fp;
 	char filter_exp[] = "port 80";
 	bpf_u_int32 net, mask;
+
+	/* Default values */
+	arguments.interface = NULL;
 
 	argp_parse(&argp, argc, argv, 0, 0, &arguments);
 

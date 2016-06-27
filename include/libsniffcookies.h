@@ -30,4 +30,8 @@ typedef struct
 
 error_t parse_opt(int key, char *arg, struct argp_state *state);
 void signal_handler(int signal);
+
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
+
+void display_raw_data(int nb_cookies, Host_cookies *host_cookies);
+void display_csv_data(int nb_cookies, Host_cookies *host_cookies);

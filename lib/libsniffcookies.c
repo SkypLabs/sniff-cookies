@@ -13,6 +13,7 @@
 /* ---------- Global variables ---------- */
 
 extern pcap_t *handle;
+extern void (*display_data)(int, Host_cookies *);
 
 /* ---------- Functions ---------- */
 
@@ -24,6 +25,9 @@ error_t parse_opt(int key, char *arg, struct argp_state *state)
 	{
 		case 'i':
 			arguments->interface = arg;
+			break;
+		case 'C':
+			display_data = display_csv_data;
 			break;
 		case ARGP_KEY_ARG:
 		case ARGP_KEY_END:
@@ -52,8 +56,8 @@ void signal_handler(int signal)
 }
 
 /*
-	Callback function used by pcap_loop().
-*/
+ * Callback function used by pcap_loop().
+ */
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 {
 	Ether_hdr *eptr;
@@ -63,7 +67,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	char *http_cookies_addr;
 	char *tok_cookie, *saveptr, *saveptr2;
 
-	u_char i = 0, j;
+	u_char i = 0;
 	u_short ether_type;
 	u_int tcp_header_size;
 	u_int http_payload_size;
@@ -121,13 +125,36 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	host_cookies.host_dst += 6;
 	host_cookies.host_dst = strtok(host_cookies.host_dst, "\r\t\r\t");
 
-	printf("Host : %s\n", host_cookies.host_dst);
-	printf("IP sources : %s\n\n", host_cookies.ip_src);
+	display_data(i, &host_cookies);
+}
 
-	for (j=0; j<i; j++)
-	{
-		printf("%s =  %s\n", host_cookies.cookies[j].id, host_cookies.cookies[j].val);
-	}
+/*
+ * Display cookies as raw data.
+ */
+void display_raw_data(int nb_cookies, Host_cookies *host_cookies)
+{
+	int i;
+
+	printf("Host : %s\n", host_cookies->host_dst);
+	printf("IP sources : %s\n\n", host_cookies->ip_src);
+
+	for (i = 0; i < nb_cookies; i++)
+		printf("%s =  %s\n", host_cookies->cookies[i].id, host_cookies->cookies[i].val);
 
 	printf("--------------------------------------\n");
+}
+
+/*
+ * Display cookies as CSV data.
+ */
+void display_csv_data(int nb_cookies, Host_cookies *host_cookies)
+{
+	int i;
+
+	printf("%s;%s", host_cookies->host_dst, host_cookies->ip_src);
+
+	for (i = 0; i < nb_cookies; i++)
+		printf(";%s;%s", host_cookies->cookies[i].id, host_cookies->cookies[i].val);
+
+	printf("\n");
 }
