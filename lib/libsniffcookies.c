@@ -13,7 +13,7 @@
 /* ---------- Global variables ---------- */
 
 extern pcap_t *handle;
-extern void (*display_data)(int, Host_cookies *);
+extern void (*display_data)(Host_cookies *);
 
 /* ---------- Functions ---------- */
 
@@ -66,12 +66,12 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	void *http_payload_addr;
 	char *http_cookies_addr;
 	char *tok_cookie, *saveptr, *saveptr2;
+	HTTP_cookie *current_cookie, *previous_cookie = NULL;
 
-	u_char i = 0;
 	u_short ether_type;
 	u_int tcp_header_size;
 	u_int http_payload_size;
-	Host_cookies host_cookies;
+	Host_cookies host_cookies = {NULL};
 	struct in_addr ip_src;
 	static char http_payload[DEFAULT_TCP_PAYLOAD_SIZE];
 
@@ -109,13 +109,28 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 
 	tok_cookie = strtok_r(http_cookies_addr, " ;", &saveptr);
 
+	/* While there are cookies */
 	while (tok_cookie != NULL)
 	{
-		host_cookies.cookies[i].id = strtok_r(tok_cookie, "=", &saveptr2);
-		host_cookies.cookies[i].val = strtok_r(NULL, "=", &saveptr2);
+		current_cookie = (HTTP_cookie *) malloc(sizeof(HTTP_cookie));
 
+		if (current_cookie == NULL)
+		{
+			fprintf(stderr, "[x] Out of memory\n");
+			exit(EXIT_FAILURE);
+		}
+
+		current_cookie->id = strtok_r(tok_cookie, "=", &saveptr2);
+		current_cookie->val = strtok_r(NULL, "=", &saveptr2);
+		current_cookie->next = NULL;
+
+		if (previous_cookie == NULL)
+			host_cookies.cookies = current_cookie;
+		else
+			previous_cookie->next = current_cookie;
+
+		previous_cookie = current_cookie;
 		tok_cookie = strtok_r(NULL, " ;", &saveptr);
-		i++;
 	}
 
 	ip_src.s_addr = ip->ip_src_addr;
@@ -125,21 +140,27 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	host_cookies.host_dst += 6;
 	host_cookies.host_dst = strtok(host_cookies.host_dst, "\r\t\r\t");
 
-	display_data(i, &host_cookies);
+	if (host_cookies.cookies != NULL)
+		display_data(&host_cookies);
 }
 
 /*
  * Display cookies as raw data.
  */
-void display_raw_data(int nb_cookies, Host_cookies *host_cookies)
+void display_raw_data(Host_cookies *host_cookies)
 {
-	int i;
+	HTTP_cookie *current_cookie = host_cookies->cookies, *previous_cookie;
 
 	printf("Host : %s\n", host_cookies->host_dst);
 	printf("IP sources : %s\n\n", host_cookies->ip_src);
 
-	for (i = 0; i < nb_cookies; i++)
-		printf("%s =  %s\n", host_cookies->cookies[i].id, host_cookies->cookies[i].val);
+	while (current_cookie != NULL)
+	{
+		printf("%s = %s\n", current_cookie->id, current_cookie->val);
+		previous_cookie = current_cookie;
+		current_cookie = current_cookie->next;
+		free(previous_cookie);
+	}
 
 	printf("--------------------------------------\n");
 }
@@ -147,14 +168,19 @@ void display_raw_data(int nb_cookies, Host_cookies *host_cookies)
 /*
  * Display cookies as CSV data.
  */
-void display_csv_data(int nb_cookies, Host_cookies *host_cookies)
+void display_csv_data(Host_cookies *host_cookies)
 {
-	int i;
+	HTTP_cookie *current_cookie = host_cookies->cookies, *previous_cookie;
 
 	printf("%s;%s", host_cookies->host_dst, host_cookies->ip_src);
 
-	for (i = 0; i < nb_cookies; i++)
-		printf(";%s;%s", host_cookies->cookies[i].id, host_cookies->cookies[i].val);
+	while (current_cookie != NULL)
+	{
+		printf(";%s;%s", current_cookie->id, current_cookie->val);
+		previous_cookie = current_cookie;
+		current_cookie = current_cookie->next;
+		free(previous_cookie);
+	}
 
 	printf("\n");
 }

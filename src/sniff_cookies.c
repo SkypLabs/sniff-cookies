@@ -10,7 +10,7 @@
 /* ---------- Global variables ---------- */
 
 pcap_t *handle = NULL;
-void (*display_data)(int, Host_cookies *) = display_raw_data;
+void (*display_data)(Host_cookies *) = display_raw_data;
 
 const char *argp_program_version = "v1.1.0";
 const char *argp_program_bug_address = "<skyper@skyplabs.net>";

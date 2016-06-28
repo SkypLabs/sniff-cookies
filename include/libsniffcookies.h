@@ -4,8 +4,6 @@
 #define SIGKILL			9
 #define SIGINT			2
 
-#define NB_COOKIE_HOST		20
-
 /* ---------- Structures ---------- */
 
 typedef struct
@@ -13,17 +11,20 @@ typedef struct
 	char *interface;
 } Arguments;
 
-typedef struct
+struct HTTP_cookie
 {
 	char *id;
 	char *val;
-} HTTP_cookie;
+	struct HTTP_cookie *next;
+};
+
+typedef struct HTTP_cookie HTTP_cookie;
 
 typedef struct
 {
 	char *ip_src;
 	char *host_dst;
-	HTTP_cookie cookies[NB_COOKIE_HOST];
+	HTTP_cookie *cookies;
 } Host_cookies;
 
 /* ---------- Prototypes ---------- */
@@ -33,5 +34,5 @@ void signal_handler(int signal);
 
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
 
-void display_raw_data(int nb_cookies, Host_cookies *host_cookies);
-void display_csv_data(int nb_cookies, Host_cookies *host_cookies);
+void display_raw_data(Host_cookies *host_cookies);
+void display_csv_data(Host_cookies *host_cookies);
