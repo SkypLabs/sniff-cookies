@@ -46,11 +46,13 @@ void signal_handler(int signal)
 		case SIGINT :
 		case SIGTERM :
 		case SIGKILL :
-			if (handle != NULL)
-				pcap_close(handle);
-
-			printf("\n[*] Good Bye\n");
-			exit(EXIT_SUCCESS);
+			if (handle == NULL)
+			{
+				printf("\n[*] Interrupted\n");
+				exit(EXIT_SUCCESS);
+			}
+			else
+				pcap_breakloop(handle);
 			break;
 	}
 }
@@ -117,6 +119,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 		if (current_cookie == NULL)
 		{
 			fprintf(stderr, "[x] Out of memory\n");
+			pcap_close(handle);
 			exit(EXIT_FAILURE);
 		}
 

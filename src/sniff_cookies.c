@@ -47,7 +47,7 @@ int main (int argc, char ** argv)
 
 		if (dev == NULL)
 		{
-			fprintf(stderr, "[x] Error during looking up device : %s\n", errbuf);
+			fprintf(stderr, "[x] Couldn't find default device : %s\n", errbuf);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -58,7 +58,7 @@ int main (int argc, char ** argv)
 
 	if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1)
 	{
-		fprintf(stderr, "[!] Can't get netmask for device %s : %s\n", dev, errbuf);
+		fprintf(stderr, "[!] Couldn't get netmask for device %s : %s\n", dev, errbuf);
 		net = mask = 0;
 	}
 
@@ -73,12 +73,14 @@ int main (int argc, char ** argv)
 	if ((pcap_compile(handle, &fp, filter_exp, 0, net)) == -1)
 	{
 		fprintf(stderr, "[x] Couldn't parse filter %s : %s\n", filter_exp, pcap_geterr(handle));
+		pcap_close(handle);
 		exit(EXIT_FAILURE);
 	}
 
 	if ((pcap_setfilter(handle, &fp)) == -1)
 	{
 		fprintf(stderr, "[x] Couldn't install filter %s : %s\n", filter_exp, pcap_geterr(handle));
+		pcap_close(handle);
 		exit(EXIT_FAILURE);
 	}
 
@@ -87,9 +89,11 @@ int main (int argc, char ** argv)
 	if ((pcap_loop(handle, -1, got_packet, NULL) == -1))
 	{
 		fprintf(stderr, "[x] Error during reading packets\n");
+		pcap_close(handle);
 		exit(EXIT_FAILURE);
 	}
 
+	printf("\n[*] Good Bye\n");
 	pcap_close(handle);
 
 	return EXIT_SUCCESS;
