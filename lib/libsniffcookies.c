@@ -143,6 +143,9 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	host_cookies.host_dst += 6;
 	host_cookies.host_dst = strtok(host_cookies.host_dst, "\r\t\r\t");
 
+	host_cookies.request_type = strtok_r(http_payload, " ", &saveptr);
+	host_cookies.resource = strtok_r(NULL, " ", &saveptr);
+
 	if (host_cookies.cookies != NULL)
 		display_data(&host_cookies);
 }
@@ -155,7 +158,9 @@ void display_raw_data(Host_cookies *host_cookies)
 	HTTP_cookie *current_cookie = host_cookies->cookies, *previous_cookie;
 
 	printf("Host : %s\n", host_cookies->host_dst);
-	printf("IP sources : %s\n\n", host_cookies->ip_src);
+	printf("IP sources : %s\n", host_cookies->ip_src);
+	printf("Resource : %s\n", host_cookies->resource);
+	printf("Request type : %s\n\n", host_cookies->request_type);
 
 	while (current_cookie != NULL)
 	{
@@ -175,7 +180,7 @@ void display_csv_data(Host_cookies *host_cookies)
 {
 	HTTP_cookie *current_cookie = host_cookies->cookies, *previous_cookie;
 
-	printf("%s;%s", host_cookies->host_dst, host_cookies->ip_src);
+	printf("%s;%s;%s;%s", host_cookies->host_dst, host_cookies->ip_src, host_cookies->resource, host_cookies->request_type);
 
 	while (current_cookie != NULL)
 	{

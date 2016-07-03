@@ -24,6 +24,8 @@ typedef struct
 {
 	char *ip_src;
 	char *host_dst;
+	char *resource;
+	char *request_type;
 	HTTP_cookie *cookies;
 } Host_cookies;
 
