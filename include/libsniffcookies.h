@@ -9,6 +9,7 @@
 typedef struct
 {
 	char *interface;
+	char filter_exp[15];
 } Arguments;
 
 struct HTTP_cookie

@@ -19,12 +19,24 @@ extern void (*display_data)(Host_cookies *);
 
 error_t parse_opt(int key, char *arg, struct argp_state *state)
 {
+	int port;
 	Arguments *arguments = state->input;
 
 	switch(key)
 	{
 		case 'i':
 			arguments->interface = arg;
+			break;
+		case 'p':
+			port = atoi(arg);
+
+			if (port < 0 || port > 65535)
+			{
+				fprintf(stderr, "[x] Illegal port number\n");
+				exit(EXIT_FAILURE);
+			}
+
+			sprintf(arguments->filter_exp, "tcp port %d", port);
 			break;
 		case 'C':
 			display_data = display_csv_data;

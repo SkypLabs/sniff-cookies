@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <argp.h>
 #include <pcap.h>
 #include <signal.h>
@@ -17,6 +18,7 @@ const char *argp_program_bug_address = "<skyper@skyplabs.net>";
 static char doc[] = "Allows to display the HTTP cookies passing through the network";
 static struct argp_option options[] = {
 	{"interface", 'i', "INTERFACE", 0, "Specify the network interface to use"},
+	{"port", 'p', "PORT", 0, "Specify the network port to listen (default: 80)"},
 	{"csv", 'C', 0, 0, "Display cookies as CSV data"},
 	{0}
 };
@@ -30,11 +32,11 @@ int main (int argc, char ** argv)
 	Arguments arguments;
 	char *dev, errbuf[PCAP_ERRBUF_SIZE];
 	struct bpf_program fp;
-	char filter_exp[] = "tcp port 80";
 	bpf_u_int32 net, mask;
 
 	/* Default values */
 	arguments.interface = NULL;
+	strcpy(arguments.filter_exp, "tcp port 80");
 
 	argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
@@ -70,16 +72,16 @@ int main (int argc, char ** argv)
 		exit(EXIT_FAILURE);
 	}
 
-	if ((pcap_compile(handle, &fp, filter_exp, 0, net)) == -1)
+	if ((pcap_compile(handle, &fp, arguments.filter_exp, 0, net)) == -1)
 	{
-		fprintf(stderr, "[x] Couldn't parse filter %s : %s\n", filter_exp, pcap_geterr(handle));
+		fprintf(stderr, "[x] Couldn't parse filter %s : %s\n", arguments.filter_exp, pcap_geterr(handle));
 		pcap_close(handle);
 		exit(EXIT_FAILURE);
 	}
 
 	if ((pcap_setfilter(handle, &fp)) == -1)
 	{
-		fprintf(stderr, "[x] Couldn't install filter %s : %s\n", filter_exp, pcap_geterr(handle));
+		fprintf(stderr, "[x] Couldn't install filter %s : %s\n", arguments.filter_exp, pcap_geterr(handle));
 		pcap_close(handle);
 		exit(EXIT_FAILURE);
 	}
