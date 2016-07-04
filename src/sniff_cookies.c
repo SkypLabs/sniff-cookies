@@ -86,6 +86,7 @@ int main (int argc, char ** argv)
 		exit(EXIT_FAILURE);
 	}
 
+	printf("[*] Filter : %s\n", arguments.filter_exp);
 	printf("[*] Start sniffing ...\n");
 
 	if ((pcap_loop(handle, -1, got_packet, NULL) == -1))
