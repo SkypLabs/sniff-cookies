@@ -30,6 +30,7 @@ This program allows to display the HTTP cookies passing through the network whic
 
       -C, --csv                  Display cookies as CSV data
       -i, --interface=INTERFACE  Specify the network interface to use
+      -p, --port=PORT            Specify the network port to listen (default: 80)
       -?, --help                 Give this help list
           --usage                Give a short usage message
       -V, --version              Print program version
@@ -38,6 +39,10 @@ This program allows to display the HTTP cookies passing through the network whic
     for any corresponding short options.
 
     Report bugs to <skyper@skyplabs.net>.
+
+Here is an example of use :
+
+    sniff-cookies -i eth0 -p 8080
 
 ## Output
 
