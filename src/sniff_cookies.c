@@ -30,7 +30,7 @@ int main (int argc, char ** argv)
 	Arguments arguments;
 	char *dev, errbuf[PCAP_ERRBUF_SIZE];
 	struct bpf_program fp;
-	char filter_exp[] = "port 80";
+	char filter_exp[] = "tcp port 80";
 	bpf_u_int32 net, mask;
 
 	/* Default values */
