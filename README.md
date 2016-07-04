@@ -39,6 +39,30 @@ This program allows to display the HTTP cookies passing through the network whic
 
     Report bugs to <skyper@skyplabs.net>.
 
+## Output
+
+### Default
+
+Here is an example of the default output :
+
+	Host : www.html-kit.com
+	IP sources : 192.168.20.22
+	Resource : /tools/cookietester/
+	Request type : GET
+
+	TestCookie_Name_201607045556 = TestCookie_Value_155556
+	TestCookie_Name_201607045620 = TestCookie_Value_155620
+
+### CSV
+
+With option *-C*, each output line will look like this :
+
+    host;ip_source;resource_requested;request_type;cookie_1_name;cookie_1_value;cookie_2_name;cookie_2_value;...
+
+Here is an example :
+
+    www.html-kit.com;192.168.20.22;/tools/cookietester/;GET;TestCookie_Name_201607045556;TestCookie_Value_155556;TestCookie_Name_201607045620;TestCookie_Value_155620
+
 ## License
 
 [GPL version 3][2]
