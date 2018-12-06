@@ -1,12 +1,12 @@
 # Sniff Cookies
 
-[![Build Status](https://travis-ci.org/SkypLabs/sniff-cookies.svg)](https://travis-ci.org/SkypLabs/sniff-cookies)
+[![Build Status](https://travis-ci.org/SkypLabs/sniff-cookies.svg)](https://travis-ci.org/SkypLabs/sniff-cookies) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/729dc0fae9bf4581ba2c8ce0dd2cd999)](https://www.codacy.com/app/skyper/sniff-cookies?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SkypLabs/sniff-cookies&amp;utm_campaign=Badge_Grade)
 
 This program allows to display the HTTP cookies passing through the network which your NIC is connected.
 
 ## Dependencies
 
- * [libpcap][1]
+ * [libpcap][tcpdump]
 
 ### On Fedora
 
@@ -40,7 +40,7 @@ This program allows to display the HTTP cookies passing through the network whic
 
     Report bugs to <skyper@skyplabs.net>.
 
-Here is an example of use :
+Here is an example of use:
 
     sniff-cookies -i eth0 -p 8080
 
@@ -48,7 +48,7 @@ Here is an example of use :
 
 ### Default
 
-Here is an example of the default output :
+Here is an example of the default output:
 
 	Host : www.html-kit.com
 	IP sources : 192.168.20.22
@@ -60,17 +60,17 @@ Here is an example of the default output :
 
 ### CSV
 
-With option *-C*, each output line will look like this :
+With option *-C*, each output line will look like this:
 
     host;ip_source;resource_requested;request_type;cookie_1_name;cookie_1_value;cookie_2_name;cookie_2_value;...
 
-Here is an example :
+Here is an example:
 
     www.html-kit.com;192.168.20.22;/tools/cookietester/;GET;TestCookie_Name_201607045556;TestCookie_Value_155556;TestCookie_Name_201607045620;TestCookie_Value_155620
 
 ## License
 
-[GPL version 3][2]
+[GPL version 3][GPLv3]
 
-  [1]: http://www.tcpdump.org "Official web site of tcpdump and libpcap"
-  [2]: https://www.gnu.org/licenses/gpl.txt "GPL version 3"
+ [tcpdump]: http://www.tcpdump.org "Official web site of tcpdump and libpcap"
+ [GPLv3]: https://www.gnu.org/licenses/gpl.txt "GPL version 3"
