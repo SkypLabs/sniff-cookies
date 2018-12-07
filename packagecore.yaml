@@ -19,3 +19,11 @@ packages:
       - automake
       - gcc
       - libpcap-dev
+  fedora28:
+    deps:
+      - libpcap
+    builddeps:
+      - make
+      - automake
+      - gcc
+      - libpcap-devel
