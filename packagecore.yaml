@@ -11,6 +11,14 @@ commands:
   testinstall: |
     sniff-cookies --help
 packages:
+  centos7.4:
+    deps:
+      - libpcap
+    builddeps:
+      - make
+      - automake
+      - gcc
+      - libpcap-devel
   debian9:
     deps:
       - libpcap0.8
@@ -27,3 +35,11 @@ packages:
       - automake
       - gcc
       - libpcap-devel
+  ubuntu18.04:
+    deps:
+      - libpcap0.8
+    builddeps:
+      - make
+      - automake
+      - gcc
+      - libpcap-dev
