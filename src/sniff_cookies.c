@@ -13,7 +13,7 @@
 pcap_t *handle = NULL;
 void (*display_data)(Host_cookies *) = display_raw_data;
 
-const char *argp_program_version = "v2.0.0";
+const char *argp_program_version = "v2.0.1";
 const char *argp_program_bug_address = "<skyper@skyplabs.net>";
 static char doc[] = "A lightweight HTTP cookies sniffer";
 static struct argp_option options[] = {
