@@ -13,7 +13,7 @@
    */
 void pcap_fatal(const char *failed_in, const char *errbuf)
 {
-    printf("Fatal Error in %s : %s\n", failed_in, errbuf);
+    printf("Fatal Error in %s: %s\n", failed_in, errbuf);
     exit(EXIT_FAILURE);
 }
 
