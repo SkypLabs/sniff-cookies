@@ -9,15 +9,16 @@ compiler:
   - gcc
   - clang
 
+install:
+  - sudo add-apt-repository ppa:dns/gnu -y
+  - sudo apt-get update -q
+  - sudo apt-get install -qq build-essential autoconf automake libpcap-dev
+  - automake --version
+
+script: ./autogen.sh && ./configure && make
+
 jobs:
   include:
-    - stage: test
-      install:
-        - sudo add-apt-repository ppa:dns/gnu -y
-        - sudo apt-get update -q
-        - sudo apt-get install -qq build-essential autoconf automake libpcap-dev
-        - automake --version
-      script: ./autogen.sh && ./configure && make
     - stage: deploy
       before_deploy:
         - sudo apt-get update -qy
