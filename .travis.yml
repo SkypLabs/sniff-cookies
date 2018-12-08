@@ -1,13 +1,36 @@
+sudo: required
+
 language: c
 
+services:
+  - docker
+
 compiler:
-    - gcc
-    - clang
+  - gcc
+  - clang
 
-install:
-    - sudo add-apt-repository ppa:dns/gnu -y
-    - sudo apt-get update -q
-    - sudo apt-get install -qq build-essential autoconf automake libpcap-dev
-    - automake --version
-
-script: ./autogen.sh && ./configure && make
+jobs:
+  include:
+    - stage: test
+      install:
+        - sudo add-apt-repository ppa:dns/gnu -y
+        - sudo apt-get update -q
+        - sudo apt-get install -qq build-essential autoconf automake libpcap-dev
+        - automake --version
+      script: ./autogen.sh && ./configure && make
+    - stage: deploy
+      before_deploy:
+        - sudo apt-get update -qy
+        - sudo apt-get install -qy python3 python3-pip libyaml-dev
+        - sudo python3 -m pip install packagecore
+        - packagecore -o dist "${TRAVIS_TAG#v}"
+      deploy:
+        provider: releases
+        api_key:
+          secure: "PBQYcY8o8VSxvm1QcOx4vDZxkcRjWZfn38HQN7/tJhx6jgVjWZrrPBK7dfTH5wLW4ZbEcWeIqDCi869HuxCP9s1DmB5QNkEpRin5WE8gIA5ewizrmkDPe8ezY+d7AGfC/VrP63pm+K0DYZUxxz4zGkqLXX+OiQ/EAWrgQZzSYS2+9LGQ/0HbUsKfPBxvHpZLcrjaSP0J8T2E54h8xW5peIWG8xyAAycK2Hb2tqWSsmJwtWO7QVDaKQp6Q17K1CX6FJQDu2ArnIWwnr1ILO4VXBrMjqjC5s7XR6Tr7GG7QIA88H0CyDBsdr2ChsY/h7eEzvO7WR6bDhl6U6cXZq87uS/py19Q2JUzt3+RJx+R+0fTVTiBBxCk5azKUilU2ZxOu78DddFLmrke1cuO2/Dy1TjNc9dSNWE2gk99n3Z2z+xU7/oDHtDseOaUNLnI3u5UuHT6r4vEwaH+Ht6B+OSG0iSIhbbKWtk6ahyGy2f+nUCmSmRxbVI+2A6X3k6ESGWHRYcfFVKLV/QfwjpHTIzyBOV307QhRthQjdQB80RD3on66+9pRHaLNzVnwJg0PPfoxuqpisglM3bmcIFt9gCku/9z1L0dJViHyjFtY/Wi8IBYV+fjxcxeYnqb2FGMIyi4USuTAVs/1BEl+BjiIv7nGbVcUIA7OSbcFJ1J/H2duvY="
+        file:
+          - dist/*
+        file_glob: true
+        on:
+          repo: SkypLabs/sniff-cookies
+          tags: true
