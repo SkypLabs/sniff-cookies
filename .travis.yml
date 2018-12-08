@@ -19,7 +19,7 @@ script:
   - ./autogen.sh
   - ./configure
   - make
-  - ./sniff-cookies -h
+  - ./src/sniff-cookies --help
 
 jobs:
   include:
