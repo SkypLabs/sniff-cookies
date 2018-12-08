@@ -62,6 +62,15 @@ Here is an example:
 
     www.html-kit.com;192.168.20.22;/tools/cookietester/;GET;TestCookie_Name_201607045556;TestCookie_Value_155556;TestCookie_Name_201607045620;TestCookie_Value_155620
 
+## Development
+
+### Bumping the version number
+
+Once ready to release a new version, the version number must be changed in:
+
+* `configure.ac`
+* `src/sniff_cookies.c`
+
 ## License
 
 [GPL version 3][GPLv3]
