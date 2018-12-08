@@ -1,0 +1,45 @@
+name: sniff-cookies
+maintainer: Paul-Emmanuel Raoul <skyper@skyplabs.net>
+license: GPLv3
+summary: A lightweight HTTP cookies sniffer
+homepage: https://github.com/SkypLabs/sniff-cookies
+commands:
+  compile: |
+    ./autogen.sh && ./configure && make
+  install: |
+    make install DESTDIR="${BP_DESTDIR}"
+  testinstall: |
+    sniff-cookies --help
+packages:
+  centos7.4:
+    deps:
+      - libpcap
+    builddeps:
+      - make
+      - automake
+      - gcc
+      - libpcap-devel
+  debian9:
+    deps:
+      - libpcap0.8
+    builddeps:
+      - make
+      - automake
+      - gcc
+      - libpcap-dev
+  fedora28:
+    deps:
+      - libpcap
+    builddeps:
+      - make
+      - automake
+      - gcc
+      - libpcap-devel
+  ubuntu18.04:
+    deps:
+      - libpcap0.8
+    builddeps:
+      - make
+      - automake
+      - gcc
+      - libpcap-dev

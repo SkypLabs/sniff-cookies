@@ -3,6 +3,8 @@
 *.log
 *.o
 *.swp
+*.deb
+*.rpm
 Makefile
 Makefile.in
 aclocal.m4
