@@ -8,26 +8,26 @@
 
 typedef struct
 {
-	char *interface;
-	char filter_exp[15];
+    char *interface;
+    char filter_exp[15];
 } Arguments;
 
 struct HTTP_cookie
 {
-	char *id;
-	char *val;
-	struct HTTP_cookie *next;
+    char *id;
+    char *val;
+    struct HTTP_cookie *next;
 };
 
 typedef struct HTTP_cookie HTTP_cookie;
 
 typedef struct
 {
-	char *ip_src;
-	char *host_dst;
-	char *resource;
-	char *request_type;
-	HTTP_cookie *cookies;
+    char *ip_src;
+    char *host_dst;
+    char *resource;
+    char *request_type;
+    HTTP_cookie *cookies;
 } Host_cookies;
 
 /* ---------- Prototypes ---------- */
