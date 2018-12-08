@@ -15,7 +15,11 @@ install:
   - sudo apt-get install -qq build-essential autoconf automake libpcap-dev
   - automake --version
 
-script: ./autogen.sh && ./configure && make
+script:
+  - ./autogen.sh
+  - ./configure
+  - make
+  - ./sniff-cookies -h
 
 jobs:
   include:
