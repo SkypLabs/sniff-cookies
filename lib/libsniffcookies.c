@@ -169,10 +169,10 @@ void display_raw_data(Host_cookies *host_cookies)
 {
     HTTP_cookie *current_cookie = host_cookies->cookies, *previous_cookie;
 
-    printf("Host : %s\n", host_cookies->host_dst);
-    printf("IP source : %s\n", host_cookies->ip_src);
-    printf("Resource : %s\n", host_cookies->resource);
-    printf("Request type : %s\n\n", host_cookies->request_type);
+    printf("Host: %s\n", host_cookies->host_dst);
+    printf("IP source: %s\n", host_cookies->ip_src);
+    printf("Resource: %s\n", host_cookies->resource);
+    printf("Request type: %s\n\n", host_cookies->request_type);
 
     while (current_cookie != NULL)
     {
