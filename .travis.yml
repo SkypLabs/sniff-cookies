@@ -36,6 +36,7 @@ jobs:
         file:
           - dist/*
         file_glob: true
+        skip_cleanup: true
         on:
           repo: SkypLabs/sniff-cookies
           tags: true
