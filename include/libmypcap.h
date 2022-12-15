@@ -1,11 +1,11 @@
 /* ---------- Defines ---------- */
 
-#define ETHER_ADDR_LENGTH		6
-#define ETHER_HDR_LENGTH		14
+#define ETHER_ADDR_LENGTH           6
+#define ETHER_HDR_LENGTH            14
 
-#define IP_HDR_LENGTH			20
+#define IP_HDR_LENGTH               20
 
-#define DEFAULT_TCP_PAYLOAD_SIZE	2048
+#define DEFAULT_TCP_PAYLOAD_SIZE    2048
 
 /* ---------- Prototypes ---------- */
 
