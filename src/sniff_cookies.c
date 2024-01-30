@@ -30,7 +30,8 @@ static struct argp argp = {options, parse_opt, 0, doc};
 int main (int argc, char ** argv)
 {
     Arguments arguments;
-    char *dev, errbuf[PCAP_ERRBUF_SIZE];
+    char *int_name, errbuf[PCAP_ERRBUF_SIZE];
+    pcap_if_t *interfaces;
     struct bpf_program fp;
     bpf_u_int32 net, mask;
 
@@ -45,32 +46,47 @@ int main (int argc, char ** argv)
 
     if (arguments.interface == NULL)
     {
-        dev = pcap_lookupdev(errbuf);
-
-        if (dev == NULL)
+        if (pcap_findalldevs(&interfaces, errbuf) == PCAP_ERROR)
         {
-            fprintf(stderr, "[x] Couldn't find the default network adaptor: %s\n", errbuf);
+            fprintf(stderr,
+                "[x] Couldn't get the list of network interfaces: %s\n",
+                errbuf);
             exit(EXIT_FAILURE);
         }
+
+        if (interfaces == NULL)
+        {
+            fprintf(stderr, "[x] No network interface found\n");
+            exit(EXIT_FAILURE);
+        }
+
+        // The first network interface of the list is used by default.
+        int_name = interfaces->name;
     }
     else
-        dev = arguments.interface;
+        int_name = arguments.interface;
 
-    printf("[*] Device : %s\n", dev);
+    printf("[*] Interface: %s\n", int_name);
 
-    if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1)
+    if (pcap_lookupnet(int_name, &net, &mask, errbuf) == -1)
     {
-        fprintf(stderr, "[!] Couldn't get the netmask for device %s: %s\n", dev, errbuf);
+        fprintf(stderr, "[!] Couldn't get the netmask for interface %s: %s\n",
+            int_name, errbuf);
         net = mask = 0;
     }
 
-    handle = pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf);
+    handle = pcap_open_live(int_name, BUFSIZ, 1, 1000, errbuf);
 
     if (handle == NULL)
     {
-        fprintf(stderr, "[x] Couldn't open device %s: %s\n", dev, errbuf);
+        fprintf(stderr, "[x] Couldn't open interface %s: %s\n", int_name,
+            errbuf);
+        pcap_freealldevs(interfaces);
         exit(EXIT_FAILURE);
     }
+
+    // At this point, the network interface list is no more needed.
+    pcap_freealldevs(interfaces);
 
     if ((pcap_compile(handle, &fp, arguments.filter_exp, 0, net)) == -1)
     {
@@ -86,7 +102,7 @@ int main (int argc, char ** argv)
         exit(EXIT_FAILURE);
     }
 
-    printf("[*] Filter : %s\n", arguments.filter_exp);
+    printf("[*] Filter: %s\n", arguments.filter_exp);
     printf("[*] Start sniffing ...\n");
 
     if ((pcap_loop(handle, -1, got_packet, NULL) == -1))
