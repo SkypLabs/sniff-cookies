@@ -24,20 +24,20 @@ development and runtime dependencies) and then:
 
 ## How to
 
-  Usage: sniff-cookies [OPTION...]
-  Allows to display the HTTP cookies passing through the network
+    Usage: sniff-cookies [OPTION...]
+    Allows to display the HTTP cookies passing through the network
 
-    -C, --csv                  Display cookies as CSV data
-    -i, --interface=INTERFACE  Specify the network interface to use
-    -p, --port=PORT            Specify the network port to listen (default: 80)
-    -?, --help                 Give this help list
-        --usage                Give a short usage message
-    -V, --version              Print program version
+      -C, --csv                  Display cookies as CSV data
+      -i, --interface=INTERFACE  Specify the network interface to use
+      -p, --port=PORT            Specify the network port to listen (default: 80)
+      -?, --help                 Give this help list
+          --usage                Give a short usage message
+      -V, --version              Print program version
 
-  Mandatory or optional arguments to long options are also mandatory or optional
-  for any corresponding short options.
+    Mandatory or optional arguments to long options are also mandatory or optional
+    for any corresponding short options.
 
-  Report bugs to <skyper@skyplabs.net>.
+    Report bugs to <skyper@skyplabs.net>.
 
 Here is an example of use:
 
@@ -49,13 +49,13 @@ Here is an example of use:
 
 Here is an example of the default output:
 
-  Host: www.html-kit.com
-  IP sources: 192.168.20.22
-  Resource: /tools/cookietester/
-  Request type: GET
+    Host: www.html-kit.com
+    IP sources: 192.168.20.22
+    Resource: /tools/cookietester/
+    Request type: GET
 
-  TestCookie_Name_201607045556 = TestCookie_Value_155556
-  TestCookie_Name_201607045620 = TestCookie_Value_155620
+    TestCookie_Name_201607045556 = TestCookie_Value_155556
+    TestCookie_Name_201607045620 = TestCookie_Value_155620
 
 ### CSV
 
@@ -73,7 +73,7 @@ Here is an example:
 
 The C code can be automatically formatted using [ClangFormat][clang-format]:
 
-  make format
+    make format
 
 ### Bumping the version number
 
