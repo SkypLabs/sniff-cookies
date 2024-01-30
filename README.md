@@ -2,12 +2,15 @@
 
 [![Test](https://github.com/SkypLabs/sniff-cookies/actions/workflows/test.yml/badge.svg?branch=develop)](https://github.com/SkypLabs/sniff-cookies/actions/workflows/test.yml)
 
-This program allows to display the HTTP cookies passing through the network to
-which your NIC is connected.
+Sniff Cookies, as its name implies, allows to display the HTTP cookies passing
+through the network your NIC is connected to.
+
+The Git repository has been migrated from GitHub to [Codeberg][codeberg-repo].
+Activities on GitHub (e.g. commits, issues) are mirrored to Codeberg.
 
 ## Installation
 
-Precompiled and packaged versions are available for download on the
+Pre-compiled and packaged versions are available for download on the
 [releases][releases] page.
 
 If you want to build the latest version yourself, make sure to have the
@@ -21,20 +24,20 @@ development and runtime dependencies) and then:
 
 ## How to
 
-    Usage: sniff-cookies [OPTION...]
-    Allows to display the HTTP cookies passing through the network
+  Usage: sniff-cookies [OPTION...]
+  Allows to display the HTTP cookies passing through the network
 
-      -C, --csv                  Display cookies as CSV data
-      -i, --interface=INTERFACE  Specify the network interface to use
-      -p, --port=PORT            Specify the network port to listen (default: 80)
-      -?, --help                 Give this help list
-          --usage                Give a short usage message
-      -V, --version              Print program version
+    -C, --csv                  Display cookies as CSV data
+    -i, --interface=INTERFACE  Specify the network interface to use
+    -p, --port=PORT            Specify the network port to listen (default: 80)
+    -?, --help                 Give this help list
+        --usage                Give a short usage message
+    -V, --version              Print program version
 
-    Mandatory or optional arguments to long options are also mandatory or optional
-    for any corresponding short options.
+  Mandatory or optional arguments to long options are also mandatory or optional
+  for any corresponding short options.
 
-    Report bugs to <skyper@skyplabs.net>.
+  Report bugs to <skyper@skyplabs.net>.
 
 Here is an example of use:
 
@@ -46,13 +49,13 @@ Here is an example of use:
 
 Here is an example of the default output:
 
-    Host: www.html-kit.com
-    IP sources: 192.168.20.22
-    Resource: /tools/cookietester/
-    Request type: GET
+  Host: www.html-kit.com
+  IP sources: 192.168.20.22
+  Resource: /tools/cookietester/
+  Request type: GET
 
-    TestCookie_Name_201607045556 = TestCookie_Value_155556
-    TestCookie_Name_201607045620 = TestCookie_Value_155620
+  TestCookie_Name_201607045556 = TestCookie_Value_155556
+  TestCookie_Name_201607045620 = TestCookie_Value_155620
 
 ### CSV
 
@@ -75,7 +78,8 @@ Once ready to release a new version, the version number must be changed in:
 
 ## License
 
-[GPL version 3][GPLv3]
+[GPL version 3][gpl-v3]
 
- [GPLv3]: https://www.gnu.org/licenses/gpl.txt
- [releases]: https://github.com/SkypLabs/sniff-cookies/releases
+ [codeberg-repo]: https://codeberg.org/Skyper/sniff-cookies
+ [gpl-v3]: https://www.gnu.org/licenses/gpl.txt
+ [releases]: https://codeberg.org/Skyper/sniff-cookies/releases
