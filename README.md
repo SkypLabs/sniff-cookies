@@ -6,7 +6,8 @@ Sniff Cookies, as its name implies, allows to display the HTTP cookies passing
 through the network your NIC is connected to.
 
 The Git repository has been migrated from GitHub to [Codeberg][codeberg-repo].
-Activities on GitHub (e.g. commits, issues) are mirrored to Codeberg.
+Commits made on Codeberg are mirrored to GitHub. To contribute to the project,
+issues and pull requests need to be created on Codeberg.
 
 ## Installation
 
