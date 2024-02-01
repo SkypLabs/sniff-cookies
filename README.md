@@ -69,6 +69,12 @@ Here is an example:
 
 ## Development
 
+### Formatting code
+
+The C code can be automatically formatted using [ClangFormat][clang-format]:
+
+  make format
+
 ### Bumping the version number
 
 Once ready to release a new version, the version number must be changed in:
@@ -80,6 +86,7 @@ Once ready to release a new version, the version number must be changed in:
 
 [GPL version 3][gpl-v3]
 
+ [clang-format]: https://clang.llvm.org/docs/ClangFormat.html
  [codeberg-repo]: https://codeberg.org/Skyper/sniff-cookies
  [gpl-v3]: https://www.gnu.org/licenses/gpl.txt
  [releases]: https://codeberg.org/Skyper/sniff-cookies/releases
